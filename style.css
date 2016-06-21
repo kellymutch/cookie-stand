@@ -1,0 +1,17 @@
+html {
+  height:100%;
+}
+
+body {
+  background:#F0EFE2;
+  font-family:Georgia, serif;
+}
+
+header {
+height:240px;
+/*font-family:Arima Madurai;*/
+}
+.fish{
+  width:100px;
+  height:auto;
+}
