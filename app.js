@@ -16,10 +16,14 @@ for (var j = 0; j < hours.length; j++){
   var random = avgCust();//random stores avgCust output values
   hourCust.push(random);//hourCust creates the array from values stored in random
 };
+//var pListHour = document.getElementById('pListHour')
 var hourSales = []; //hourCust * 6.3
 for (var j = 0; j < hours.length; j++){
   var costRandom = hourCust[j] * 6.3;//increment thru array
   hourSales.push(costRandom); //would like to get number to 2 decimals. var discount = Math.round(100 - (price / listprice) * 100);
+  //var listHour = document.createElement('li');
+  //listHour.textContent = firstPike.hourSales[j];
+  //pListHour.appendChild(listHour);
 };
 //totals array
 var total = hourSales.reduce(function(a, b) {
