@@ -1,32 +1,46 @@
 'use strict';
-//var firstPikeMain ={
-var hours = ['6a','7a','8a','9a','10a','11a','12p','1p','2p','3p','4p','5p','6p','7p','8p'];
-var firstPike = {
-  minCust: 23, //object properties //for mathrandom
-  maxCust: 65, //object ptoperties//for mathrandom
+var hours = ['6:00 am','7:00 am','8:00 am','9:00 am','10:00 am','11:00 am','12:00 pm','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm'];
+function Store (locationName,identifier,minCustPerHour,maxCustPerHour,avgCookiesPerCust){
+  this.locationName = locationName;
+  this.identifier = identifier;
+  this.minCustPerHour = minCustPerHour;
+  this.maxCustPerHour = maxCustPerHour;
+  this.avgCookiesPerCust = avgCookiesPerCust;
+  this.custEachHourArray = [];
+  this.cookiesEachHourArray = [];
+  this.totalDailyCookieSales = 0;
+};
+Store.prototype.calcCustEachHour = function() {
+  for(var i = 0; i < hours.length; i++) {
+    console.log('maxCustPerHour', this.maxCustPerHour);
+    console.log('minCustPerHour', this.minCustPerHour);
+
+    var custForEachHour = Math.floor(Math.random() * (this.maxCustPerHour - this.minCustPerHour + 1)) + this.minCustPerHour;
+    console.log('custfor Each Hour', custForEachHour);
+    this.custEachHourArray.push(custForEachHour);
+  }
 };
 
-var avgCust = function() {
-  var a = Math.floor(Math.random() * (firstPike.maxCust - firstPike.minCust)) + firstPike.minCust;
-  return a;
+Store.prototype.calcCookiesEachHour = function() {
+  this.calcCustEachHour();
+  for(var i = 0; i < hours.length; i++) {
+    var cookiesForEachHour = Math.floor(this.custEachHourArray[i] * this.avgCookiesPerCust);
+    this.cookiesEachHourArray.push(cookiesForEachHour);
+    this.totalDailyCookieSales += cookiesForEachHour;
+  }
 };
-var hourCust = [];//avgCust(); calls funtion
-for (var j = 0; j < hours.length; j++){
-  //code
-  var random = avgCust();//random stores avgCust output values
-  hourCust.push(random);//hourCust creates the array from values stored in random
+
+Store.prototype.render = function() {
+  this.calcCookiesEachHour();
+  for(var i = 0; i < hours.length; i++) {
+    var listItem = document.createElement('li');
+    listItem.textContent = this.cookiesEachHourArray[i];
+    var pikeList = document.getElementById('pike');
+    pikeList.appendChild(listItem);
+  }
+  var totalListItem = document.createElement('li');
+  totalListItem.textContent = 'Total for the day: ' + this.totalDailyCookieSales;
+  pikeList.appendChild(totalListItem);
 };
-//var pListHour = document.getElementById('pListHour')
-var hourSales = []; //hourCust * 6.3
-for (var j = 0; j < hours.length; j++){
-  var costRandom = hourCust[j] * 6.3;//increment thru array
-  hourSales.push(costRandom); //would like to get number to 2 decimals. var discount = Math.round(100 - (price / listprice) * 100);
-  //var listHour = document.createElement('li');
-  //listHour.textContent = firstPike.hourSales[j];
-  //pListHour.appendChild(listHour);
-};
-//totals array
-var total = hourSales.reduce(function(a, b) {
-  return a + b;
-});
-//
+var fAndP = new Store('First And Pike','firstpikeId',23,65,0);
+fAndP.render();
